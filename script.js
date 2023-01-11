@@ -88,7 +88,7 @@ let upperCasedCharacters = [
   'Z'
 ];
 
-// Function to give user password options
+// Function to validate user password options
 function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
   const errorMsgLen = document.querySelector('#err_len');
   const errorMsgCheck = document.querySelector('#err_check');
@@ -112,7 +112,7 @@ function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
 
   // If nothing choosed shows error message
   if(isLower + isUpper + isNumeric + isSpecial === 0){
-    errorMsgCheck.textContent  = 'Choose at least one'
+    errorMsgCheck.textContent  = 'Choose at least one type of characters'
     return false;
   }
 
@@ -129,6 +129,9 @@ function getPasswordOptions() {
 
 // Function for getting a random element from an array
 function getRandom(arr) {
+  // Getting random number from 0 to max index (arr.length - 1)
+  const rand = Math.floor(Math.random() * arr.length);
+  return arr[rand];
 }
 
 // Function to generate password with user input
@@ -148,12 +151,35 @@ function generatePassword() {
     return "";
   }
 
-  let password = 'password!';
+  const characterArrays = [];
+
+  if (lower == true) {
+    characterArrays.push(lowerCasedCharacters);
+  }
+
+  if (upper == true) {
+    characterArrays.push(upperCasedCharacters);
+  }
+
+  if (numeric == true) {
+    characterArrays.push(numericCharacters);
+  }
+
+  if (special == true) {
+    characterArrays.push(specialCharacters);
+  }
+
+  let password = '';
+
   // Generate password 
+  for(let i = 0; i < lenght; i++){
+    const chars = getRandom(characterArrays);
+    password += getRandom(chars);
+  }
+
   return password;
 }
 
-//Do not touch next functions, they are already work!!!! 
 // Get references to the #generate element
 let generateBtn = document.querySelector('#generate');
 
