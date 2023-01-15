@@ -90,18 +90,19 @@ let upperCasedCharacters = [
 
 // Function to validate user password options
 function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
+  // Acces elements by ID using .querySelector
   const errorMsgLen = document.querySelector('#err_len');
   const errorMsgCheck = document.querySelector('#err_check');
 
   // If password more than 64 characters shows error message
   if (len > 64) {
-    errorMsgLen.textContent  = 'Password too long'
+    errorMsgLen.textContent  = 'Password too long!'
     return false;
   } 
-  
+
   // If password less than 10 characters shows error message
   else if (len < 10) { 
-    errorMsgLen.textContent = 'Password too short'
+    errorMsgLen.textContent = 'Password too short!'
     return false;
   }
 
@@ -110,9 +111,9 @@ function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
     errorMsgLen.textContent = '';
   }
 
-  // If nothing choosed shows error message
-  if(isLower + isUpper + isNumeric + isSpecial === 0){
-    errorMsgCheck.textContent  = 'Choose at least one type of characters'
+  // If nothing selected shows error message
+  if(isLower + isUpper + isNumeric + isSpecial === 0) {
+    errorMsgCheck.textContent  = 'Select at least one type of characters!'
     return false;
   }
 
@@ -121,10 +122,6 @@ function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
    errorMsgCheck.textContent = '';
   }
   return true;
-}
-
-// Function to prompt user for password options
-function getPasswordOptions() {
 }
 
 // Function for getting a random element from an array
@@ -137,20 +134,21 @@ function getRandom(arr) {
 // Function to generate password with user input
 function generatePassword() {
   // Getting password length from input field as string
-  let lenght = document.querySelector('#lenght').value;
+  let length = document.querySelector('#length').value;
   // Converting string to int
-  lenght = parseInt(lenght);
+  length = parseInt(length);
 
-  //Get the inputs from html
+  // Get the inputs from html (Acces elements by ID using .querySelector)
   const lower = document.querySelector('#lower').checked;
   const upper = document.querySelector('#upper').checked;
   const numeric = document.querySelector('#numeric').checked;
   const special = document.querySelector('#special').checked;
 
-  if (!isValidPasswordOptions(lenght, lower, upper, numeric, special)) {
+  if (!isValidPasswordOptions(length, lower, upper, numeric, special)) {
     return "";
   }
 
+  // Array of characters Arrays
   const characterArrays = [];
 
   if (lower == true) {
@@ -171,12 +169,11 @@ function generatePassword() {
 
   let password = '';
 
-  // Generate password 
-  for(let i = 0; i < lenght; i++){
+  // Generate password based on user length choise and selected characters
+  for(let i = 0; i < length; i++){
     const chars = getRandom(characterArrays);
     password += getRandom(chars);
   }
-
   return password;
 }
 
