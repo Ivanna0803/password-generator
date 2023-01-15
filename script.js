@@ -88,11 +88,61 @@ let upperCasedCharacters = [
   'Z'
 ];
 
+// Variable of password lenght
+let length = 0;
+
+// Function to get user for password options from html
+function getPasswordOptions() {
+  // Getting password length from input field as string
+  length = document.querySelector('#length').value;
+  // Converting string to int
+  length = parseInt(length);
+
+  // Get the inputs from html (Acces elements by ID using .querySelector)
+  const lower = document.querySelector('#lower').checked;
+  const upper = document.querySelector('#upper').checked;
+  const numeric = document.querySelector('#numeric').checked;
+  const special = document.querySelector('#special').checked;
+
+  if (!isValidPasswordOptions(length, lower, upper, numeric, special)) {
+    return [];
+  }
+
+  // Array of different characters arrays,
+  // that will be used during password generation. 
+  // Created based on user selected options.
+  const characterArrays = [];
+
+  if (lower == true) {
+    characterArrays.push(lowerCasedCharacters);
+  }
+
+  if (upper == true) {
+    characterArrays.push(upperCasedCharacters);
+  }
+
+  if (numeric == true) {
+    characterArrays.push(numericCharacters);
+  }
+
+  if (special == true) {
+    characterArrays.push(specialCharacters);
+  }
+
+  return characterArrays;
+}
+
 // Function to validate user password options
 function isValidPasswordOptions(len, isLower, isUpper, isNumeric, isSpecial) {
   // Acces elements by ID using .querySelector
   const errorMsgLen = document.querySelector('#err_len');
   const errorMsgCheck = document.querySelector('#err_check');
+  
+  // If input field is empty shows error message
+  if (isNaN(len)) {
+    errorMsgLen.textContent = 'Enter the desired password length!'
+    return false;
+  }
 
   // If password more than 64 characters shows error message
   if (len > 64) {
@@ -133,38 +183,14 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  // Getting password length from input field as string
-  let length = document.querySelector('#length').value;
-  // Converting string to int
-  length = parseInt(length);
+  const characterArrays = getPasswordOptions();
 
-  // Get the inputs from html (Acces elements by ID using .querySelector)
-  const lower = document.querySelector('#lower').checked;
-  const upper = document.querySelector('#upper').checked;
-  const numeric = document.querySelector('#numeric').checked;
-  const special = document.querySelector('#special').checked;
-
-  if (!isValidPasswordOptions(length, lower, upper, numeric, special)) {
+  // If we have error during option varification  
+  // getPasswordOptions will return empty array
+  // If we get empty array we need to skip password generation
+  // Returning empty password to skip password generation
+  if (characterArrays.length == 0){
     return "";
-  }
-
-  // Array of characters Arrays
-  const characterArrays = [];
-
-  if (lower == true) {
-    characterArrays.push(lowerCasedCharacters);
-  }
-
-  if (upper == true) {
-    characterArrays.push(upperCasedCharacters);
-  }
-
-  if (numeric == true) {
-    characterArrays.push(numericCharacters);
-  }
-
-  if (special == true) {
-    characterArrays.push(specialCharacters);
   }
 
   let password = '';
@@ -174,6 +200,7 @@ function generatePassword() {
     const chars = getRandom(characterArrays);
     password += getRandom(chars);
   }
+
   return password;
 }
 
