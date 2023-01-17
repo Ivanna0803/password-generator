@@ -10,7 +10,7 @@ JavaScript application that generates random passwords with length between 10 to
 "N/A"
 
 ## Usage
- 1. Follow the link to open deployed application
+ 1. Follow the link to open deployed application: https://ivanna0803.github.io/password-generator/
  2. Enter the number of characters you would like to contain your password (the length of password has to be **10 to 64 characters**)  
  3. Click on checkboxes to select character types. **At least one type of characters has to be selected**
  4. Press the red button "Generate Password"
